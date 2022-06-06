@@ -1,0 +1,56 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+1. I'm a bit confused about some of the packages this person was using. I tried essentially copying their code, but it said gave an error, so I tried installing them, but it says there are no packages by that name. Also, I don't think I downloaded the right fasta files. 
+2. For this project, I think this person might have lost points on their analysis section since it seemed surface level, and possibly on the loading in packages and explaining why they were using what they were using. 
+
+3. What would be considerd aqeudate commenting on the code/code checks? Is it enough to explain why you choose the method you choose and then having code checks as sort of subsections to make sure something works?
+
+Also, what goes into a good analysis of the data? I thought this person's analysis wasn't very in depth, but I'm curious what more information would be appropriate to include.
+
+```{r}
+
+library(BiocManager)
+library(Biostrings)
+```
+
+
+```{r}
+library(seqinr)
+```
+
+```{r}
+blacktruffle_1 <- readAAStringSet("btfile1.fasta")
+
+
+blacktruffle_2 <- read.fasta(file = "btfile1.fasta")
+
+length(blacktruffle_2)
+```
+
+```{r}
+summertruffle_1 <- readAAStringSet("stfile1.fasta")
+
+
+summertruffle_2 <- read.fasta(file = "stfile1.fasta")
+
+length(summertruffle_2)
+```
+
+
+```{r}
+lengthofbt <- 1:length(blacktruffle_2)
+lengthofbt
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.

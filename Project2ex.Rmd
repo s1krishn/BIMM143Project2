@@ -1,0 +1,132 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+1. I'm a bit confused about some of the packages this person was using. I tried essentially copying their code, but it said gave an error, so I tried installing them, but it says there are no packages by that name. Also, I don't think I downloaded the right fasta files. 
+2. For this project, I think this person might have lost points on their analysis section since it seemed surface level, and possibly on the loading in packages and explaining why they were using what they were using. 
+
+3. What would be considerd aqeudate commenting on the code/code checks? Is it enough to explain why you choose the method you choose and then having code checks as sort of subsections to make sure something works?
+
+Also, what goes into a good analysis of the data? I thought this person's analysis wasn't very in depth, but I'm curious what more information would be appropriate to include.
+
+```{r}
+#BiocManager::install("muscle")
+library(BiocManager)
+library(Biostrings)
+```
+
+
+```{r}
+library(seqinr)
+```
+
+
+```{r}
+library(msa)
+```
+
+```{r}
+# Global variables are defined here that set up the rest of the script
+# VEGFR2 unaligned is an AAStringSet variable or an S4 variable that is a global variable
+VEGFR2_unaligned <- readAAStringSet("VEGFR2_seq.fasta")
+# uncomment the line below to check what the datatype is
+# typeof(VEGFR2_unaligned)
+
+# VEGFR2_read is a list variable that is a global variable.
+VEGFR2_read <- read.fasta(file = "VEGFR2_seq.fasta")
+# uncomment the line below to check what the datatype is
+#typeof(VEGFR2_read)
+
+# VEGFR2_read is a list variable and so the length function can be used to determine the number of sequences
+# in the list
+length(VEGFR2_read)
+```
+
+```{r}
+# Create a vector of data type integer that you can use to loop through each sequence to create the matrix
+# for the heatplot.
+x <- 1:length(VEGFR2_read)
+# uncomment the line below to see what the vector x contains
+#x
+# uncomment the line below to see what the typeof vector is
+#typeof(x)
+```
+```{r}
+library(bio3d)
+```
+```{r}
+#install.packages("gplots")
+library(gplots)
+```
+
+```{r}
+## Read in 2XIR pdb -> which is the structure of VEGFR2 with Pfizer compound PF- 00337210 bound to the kinase active site.
+pdb <- read.pdb('2XIR')
+```
+
+
+```{r}
+## Automatically identify what is the protein and what is the ligand
+bs <- binding.site(pdb)
+
+# Print the residues & save the resnumbers to a vector for later use
+bs_resnumbers <- bs$resno
+
+bs$resnames
+```
+
+
+```{r}
+## Automatically identify what is the protein and what is the ligand
+bs <- binding.site(pdb)
+
+# Print the residues & save the resnumbers to a vector for later use
+bs_resnumbers <- bs$resno
+
+bs$resnames
+```
+
+
+```{r}
+system.file("tex", "texshade.sty", package="msa")
+```
+
+
+```{r}
+Kinase_MSA <- msa(VEGFR2_unaligned)
+```
+
+
+```{r}
+print(Kinase_MSA, show="complete")
+```
+
+
+```{r}
+bs_resnumbers[1]
+
+```
+
+
+```{r}
+length(bs_resnumbers)
+```
+
+
+```{r}
+msaPrettyPrint(Kinase_MSA, output="tex", y=c((bs_resnumbers[1]+200), (bs_resnumbers[length(bs_resnumbers)]+200)),
+subset=c(1:6), showNames="left", showLogo="top",
+logoColors="rasmol", shadingMode="functional", shadingModeArg="structure",
+showLegend=FALSE, askForOverwrite=FALSE)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
